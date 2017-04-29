@@ -10,14 +10,14 @@ var Main = React.createClass({
                     <div className="jumbotron">
                         <h2 className="text-center">This is a test</h2>
                         <p className="text-center">
-                            <em>There should be some google stuff below here</em>
+                            <em>There should be some google stuff below here and in the console</em>
                         </p>
                     </div>
                 </div>
 
                 <div className="row">
                     <div className="g-signin2" data-onsuccess="onSignIn"></div>
-                    <a href="#" onClick="signOut();">Sign out</a>
+                    <a href="#" onClick={signOut}>Sign out</a>
                 </div>
             </div>
         );

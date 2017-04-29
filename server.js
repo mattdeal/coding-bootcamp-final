@@ -3,6 +3,12 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var GoogleAuth = require('google-auth-library');
+
+// setup google auth
+var auth = new GoogleAuth;
+var CLIENT_ID = '522503509161-6nqe2itj8jpdje5uoa0ep6c99odreb8q.apps.googleusercontent.com';
+var client = new auth.OAuth2(CLIENT_ID, '', '');
 
 // Require History Schema
 // var History = require("./models/History");
@@ -40,6 +46,17 @@ db.once("open", function() {
 // Main "/" Route. This will redirect the user to our rendered React application
 app.get("/", function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
+});
+
+app.get("/test/:token", function(req, res){
+  var token = req.params.token;
+
+  client.verifyIdToken(token, CLIENT_ID, function(e, login) {
+    var payload = login.getPayload();
+    var userid = payload['sub'];
+    console.log(payload);
+    console.log(userid);
+  });
 });
 
 // This is the route we will send GET requests to retrieve our most recent search data.

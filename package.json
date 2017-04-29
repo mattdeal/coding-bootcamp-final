@@ -21,6 +21,7 @@
     "axios": "^0.16.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "google-auth-library": "^0.10.0",
     "mongoose": "^4.9.6",
     "morgan": "^1.8.1",
     "react": "^15.5.4",
