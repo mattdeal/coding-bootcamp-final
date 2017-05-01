@@ -29,8 +29,8 @@ app.use(express.static("./public"));
 
 // -------------------------------------------------
 
-// todo: change mongodb url
-mongoose.connect("mongodb://admin:codingrocks@ds023664.mlab.com:23664/reactlocate");
+// mongoose.connect("mongodb://admin:codingrocks@ds023664.mlab.com:23664/reactlocate");
+mongoose.connect("mongodb://localhost/survey");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -48,52 +48,46 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/public/index.html");
 });
 
-app.get("/test/:token", function(req, res){
-  var token = req.params.token;
-
+// confirm that the user is signed into our app with their google account
+app.post("/validate", function(req, res){
+  var token = req.body.token;
   client.verifyIdToken(token, CLIENT_ID, function(e, login) {
     var payload = login.getPayload();
-    var userid = payload['sub'];
-    console.log(payload);
-    console.log(userid);
+    var userId = payload['sub'];
+    res.json({ userId: userId });
   });
 });
 
-// This is the route we will send GET requests to retrieve our most recent search data.
-// We will call this route the moment our page gets rendered
-// app.get("/api", function(req, res) {
+// create a survey
+app.post("/survey", function(req, res) {
+  //todo: validate req.body.token
+  //todo: store userid
+  //todo: create survey in db with userid as owner
+});
 
-//   // We will find all the records, sort it in descending order, then limit the records to 5
-//   History.find({}).sort([
-//     ["date", "descending"]
-//   ]).limit(5).exec(function(err, doc) {
-//     if (err) {
-//       console.log(err);
-//     }
-//     else {
-//       res.send(doc);
-//     }
-//   });
-// });
+// create a response
+app.post("/response", function(req, res) {
+  //todo: create surveyResponse from req.body
+});
 
-// // This is the route we will send POST requests to save each search.
-// app.post("/api", function(req, res) {
-//   console.log("BODY: " + req.body.location);
+// get all surveys owned by the current user
+app.get("/surveys", function(req, res) {
+  //todo: validate req.body.token
+  //todo: store userid
+  //todo: get all surveys where userid is the owner
+});
 
-//   // Here we'll save the location based on the JSON input.
-//   // We'll use Date.now() to always get the current date time
-//   History.create({
-//     location: req.body.location,
-//     date: Date.now()
-//   }, function(err) {
-//     if (err) {
-//       console.log(err);
-//     }
-//     else {
-//       res.send("Saved Search");
-//     }
-//   });
-// });
+// get a single survey
+app.get("/survey/:id", function(req, res) {
+  //todo: get a single survey
+});
+
+// get the results for a single survey owned by the current user
+app.get("/results/:id", function(req, res){
+  //todo: validate req.body.token
+  //todo: store userid
+  //todo: get all results for this surveyId
+});
 
 // -------------------------------------------------
 

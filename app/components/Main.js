@@ -15,10 +15,18 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="g-signin2" data-onsuccess="onSignIn"></div>
-                    <a href="#" onClick={signOut}>Sign out</a>
+                <div className="row" id="row-nav">
+                    {/*<div className="g-signin2" data-onsuccess="onSignIn"></div>*/}
+                    <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
+                    <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
+                    {/*todo: insert other nav items here*/}
                 </div>
+
+                <div className="row" id="row-view-survey"></div>
+
+                <div className="row" id="row-create-survey"></div>
+
+                <div className="row" id="row-submit-survey"></div>
             </div>
         );
     }
