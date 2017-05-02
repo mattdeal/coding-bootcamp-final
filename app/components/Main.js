@@ -20,6 +20,9 @@ var Main = React.createClass({
                     <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
                     <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
                     {/*todo: insert other nav items here*/}
+                    <div className="btn btn-primary sign-in-required">Button 1</div>
+                    <div className="btn btn-primary sign-in-required">Button 2</div>
+                    <div className="btn btn-primary sign-in-required">Button 3</div>
                 </div>
 
                 <div className="row" id="row-view-survey"></div>
