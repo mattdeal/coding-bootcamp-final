@@ -16,18 +16,49 @@ var Main = React.createClass({
                 </div>
 
                 <div className="row" id="row-nav">
-                    {/*<div className="g-signin2" data-onsuccess="onSignIn"></div>*/}
-                    <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
-                    <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
-                    {/*todo: insert other nav items here*/}
-                    <div className="btn btn-primary sign-in-required">Button 1</div>
-                    <div className="btn btn-primary sign-in-required">Button 2</div>
-                    <div className="btn btn-primary sign-in-required">Button 3</div>
+                    <div className="col-xs-12">
+                        {/*<div className="g-signin2" data-onsuccess="onSignIn"></div>*/}
+                        <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
+                        <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
+                        {/*todo: insert other nav items here*/}
+                        <div className="btn btn-primary sign-in-required">Button 1</div>
+                        <div className="btn btn-primary sign-in-required">Button 2</div>
+                        <div className="btn btn-primary sign-in-required">Button 3</div>
+                    </div>
                 </div>
 
                 <div className="row" id="row-view-survey"></div>
 
-                <div className="row" id="row-create-survey"></div>
+                <div className="row" id="row-create-survey">
+                    <div className="col-xs-12">
+                        <div className="row" id="row-questions">
+                            <div className="col-xs-12" id="question-container">
+                                
+                            </div>
+                        </div>
+
+                        <div className="row" id="row-create-question">
+                            <div className="col-xs-3">
+                                <div className="btn btn-primary btn-block">Add 1</div>
+                            </div>
+                            <div className="col-xs-3">
+                                <div className="btn btn-info btn-block">Add 2</div>
+                            </div>
+                            <div className="col-xs-3">
+                                <div className="btn btn-warning btn-block">Add 3</div>
+                            </div>
+                            <div className="col-xs-3">
+                                <div className="btn btn-success btn-block">Add 4</div>
+                            </div>
+                        </div>
+
+                        <div className="row" id="row-save-survey">
+                            <div className="col-xs-12">
+                                <div className="btn btn-primary btn-block">Save Survey</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="row" id="row-submit-survey"></div>
             </div>

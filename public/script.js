@@ -6,6 +6,9 @@ function onGoogleSignOut() {
 
         //hide ui items that require login
         $(".sign-in-required").hide();
+
+        //todo: show login button
+        //todo: hide logout button
     });
 }
 
@@ -25,6 +28,9 @@ function onGoogleSignIn(googleUser) {
 
           //show ui to logged in user
           $(".sign-in-required").show();
+
+          //todo: hide login button
+          //todo: show logout button
       }
   });
 }
@@ -34,19 +40,16 @@ google.setOnLoadCallback(googleReady);
 
 // call any google specific functions here
 function googleReady() {
-    console.log('google ready');
-
-    // if (gapi.auth2 && gapi.auth2.isSignedIn.get()) {
-    //     console.log("gapi.auth2=", gapi.auth2);
-
-    //     var profile = auth2.currentUser.get().getBasicProfile();
-    //     console.log('ID: ' + profile.getId());
-    //     console.log('Full Name: ' + profile.getName());
-    //     console.log('Given Name: ' + profile.getGivenName());
-    //     console.log('Family Name: ' + profile.getFamilyName());
-    //     console.log('Image URL: ' + profile.getImageUrl());
-    //     console.log('Email: ' + profile.getEmail());
-    // } else {
-    //     gapi.auth2.init();
-    // }
+    console.log('google ready');    
 }
+
+//note: this is how you get the user's token for validation
+// $(document).on("click", ".btn", function(e){
+//     e.preventDefault();
+//     if (gapi.auth2) {
+//         var profile = gapi.auth2.getAuthInstance().currentUser.get();
+//         $.post('/validate', { token: profile.getAuthResponse().id_token }).then(function(result) {
+//             console.log('/validate result=', result);
+//         });
+//     } 
+// });
