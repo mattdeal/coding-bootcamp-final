@@ -44,12 +44,12 @@ function googleReady() {
 }
 
 //note: this is how you get the user's token for validation
-// $(document).on("click", ".btn", function(e){
-//     e.preventDefault();
-//     if (gapi.auth2) {
-//         var profile = gapi.auth2.getAuthInstance().currentUser.get();
-//         $.post('/validate', { token: profile.getAuthResponse().id_token }).then(function(result) {
-//             console.log('/validate result=', result);
-//         });
-//     } 
-// });
+$(document).on("click", ".btn", function(e){
+    e.preventDefault();
+    if (gapi.auth2) {
+        var profile = gapi.auth2.getAuthInstance().currentUser.get();
+        $.post('/validate', { token: profile.getAuthResponse().id_token }).then(function(result) {
+            console.log('/validate result=', result);
+        });
+    } 
+});

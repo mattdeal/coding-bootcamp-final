@@ -51,11 +51,16 @@ app.get("/", function(req, res) {
 // confirm that the user is signed into our app with their google account
 app.post("/validate", function(req, res){
   var token = req.body.token;
-  client.verifyIdToken(token, CLIENT_ID, function(e, login) {
-    var payload = login.getPayload();
-    var userId = payload['sub'];
-    res.json({ userId: userId });
-  });
+
+  try {
+    client.verifyIdToken(token, CLIENT_ID, function(e, login) {
+      var payload = login.getPayload();
+      var userId = payload['sub'];
+      res.json({ userId: userId });
+    });
+  } catch (ex) {
+    res.json( { errorMessage: 'You must be logged in to access this feature', error: ex.toString() });
+  }  
 });
 
 // create a survey
