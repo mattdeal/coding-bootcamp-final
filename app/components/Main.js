@@ -8,7 +8,7 @@ var Main = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="jumbotron">
-                        <h2 className="text-center">This is a test</h2>
+                        <h2 className="text-center">This is a test for Jasmine</h2>
                         <p className="text-center">
                             <em>There should be some google stuff below here and in the console</em>
                         </p>
