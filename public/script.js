@@ -44,7 +44,7 @@ function googleReady() {
 }
 
 //note: this is how you get the user's token for validation
-$(document).on("click", ".btn", function(e){
+$(document).on("click", "g-signin2", function(e){
     e.preventDefault();
     if (gapi.auth2) {
         var profile = gapi.auth2.getAuthInstance().currentUser.get();
@@ -52,4 +52,24 @@ $(document).on("click", ".btn", function(e){
             console.log('/validate result=', result);
         });
     } 
+});
+
+$(document).on("click", "#btn-question-short", function(e) {
+    console.log('short answer');
+});
+
+$(document).on("click", "#btn-question-multi", function(e) {
+    console.log('multi choice');
+});
+
+$(document).on("click", "#btn-question-checkbox", function(e) {
+    console.log('checkbox');
+});
+
+$(document).on("click", "#btn-question-other", function(e) {
+    console.log('other');
+});
+
+$(document).on("click", "#btn-save-survey", function(e) {
+    console.log('save survey');
 });

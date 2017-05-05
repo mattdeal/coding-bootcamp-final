@@ -39,22 +39,22 @@ var Main = React.createClass({
 
                         <div className="row" id="row-create-question">
                             <div className="col-xs-3">
-                                <div className="btn btn-primary btn-block">Add 1</div>
+                                <div className="btn btn-primary btn-block" id="btn-question-short" data-question-type="short">Short Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-info btn-block">Add 2</div>
+                                <div className="btn btn-info btn-block" id="btn-question-multi" data-question-type="multi">Multiple Choice</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-warning btn-block">Add 3</div>
+                                <div className="btn btn-warning btn-block" id="btn-question-checkbox" data-question-type="check">Checkboxes</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-success btn-block">Add 4</div>
+                                <div className="btn btn-success btn-block" id="btn-question-other" data-question-type="other">Other</div>
                             </div>
                         </div>
 
                         <div className="row" id="row-save-survey">
                             <div className="col-xs-12">
-                                <div className="btn btn-primary btn-block">Save Survey</div>
+                                <div className="btn btn-primary btn-block" id="btn-save-survey">Save Survey</div>
                             </div>
                         </div>
                     </div>
