@@ -21,9 +21,9 @@ var Main = React.createClass({
                         <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
                         <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
                         {/*todo: insert other nav items here*/}
-                        <div className="btn btn-primary sign-in-required">Button 1</div>
-                        <div className="btn btn-primary sign-in-required">Button 2</div>
-                        <div className="btn btn-primary sign-in-required">Button 3</div>
+                        <div className="btn btn-primary sign-in-required" id="btn-nav-create">Create Survey</div>
+                        <div className="btn btn-primary sign-in-required" id="btn-nav-view">View Results</div>
+                        <div className="btn btn-primary sign-in-required">New Log Out Button</div>
                     </div>
                 </div>
 
@@ -32,8 +32,9 @@ var Main = React.createClass({
                 <div className="row" id="row-create-survey">
                     <div className="col-xs-12">
                         <div className="row" id="row-questions">
-                            <div className="col-xs-12" id="question-container">
-                                
+                            <div className="col-xs-12">
+                                <ol id="question-container">
+                                </ol>
                             </div>
                         </div>
 
@@ -42,13 +43,13 @@ var Main = React.createClass({
                                 <div className="btn btn-primary btn-block" id="btn-question-short" data-question-type="short">Short Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-info btn-block" id="btn-question-multi" data-question-type="multi">Multiple Choice</div>
+                                <div className="btn btn-info btn-block" id="btn-question-multi" data-question-type="multi-radio">Multiple Choice - Single Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-warning btn-block" id="btn-question-checkbox" data-question-type="check">Checkboxes</div>
+                                <div className="btn btn-warning btn-block" id="btn-question-checkbox" data-question-type="multi-check">Multiple Choice - Multi Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-success btn-block" id="btn-question-other" data-question-type="other">Other</div>
+                                <div className="btn btn-success btn-block" id="btn-question-toggle" data-question-type="toggle">Yes/No Toggle</div>
                             </div>
                         </div>
 
