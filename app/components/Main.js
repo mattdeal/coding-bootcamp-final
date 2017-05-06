@@ -31,7 +31,11 @@ var Main = React.createClass({
                     <div className="col-xs-12">
                         <div className="row">
                             <div className="col-xs-12">
-                                <ol id="survey-list"></ol>
+                                <div className="panel panel-default">
+                                    <div className="panel-body">
+                                        <ol id="survey-list"></ol>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

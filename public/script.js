@@ -34,6 +34,7 @@ function onGoogleSignIn(googleUser) {
 // google's version of document.ready
 google.setOnLoadCallback(googleReady);
 
+// create html for an input that allows a user to specify question text
 function createQuestionText(questionType) {
     var inputId = 'question_' + QUESTION_NUM;
 
@@ -57,6 +58,7 @@ function createToggle() {
     return '';
 }
 
+// create html that will allow a user to add multiple options to a select question
 function createOptions() {
     // question id
     // answer div for this question
@@ -88,6 +90,7 @@ function googleReady() {
     console.log('google ready');    
 }
 
+// create html to display a short question
 function createQuestionShortAnswer() {
     var newQuestion = PANEL_HEAD;
     newQuestion += createQuestionText(QUESTION_SHORT);
@@ -102,6 +105,7 @@ function createQuestionShortAnswer() {
     $('#question-container').append(result);
 }
 
+// create html to display a multi question
 function createQuestionSelectSingle() {
     var newQuestion = PANEL_HEAD;
     newQuestion += createQuestionText(QUESTION_SINGLE);
@@ -116,6 +120,7 @@ function createQuestionSelectSingle() {
     $('#question-container').append(result);
 }
 
+// create html to display a multi option question
 function createQuestionSelectMultiple() {
     var newQuestion = PANEL_HEAD;
     newQuestion += createQuestionText(QUESTION_MULTI);
@@ -130,6 +135,7 @@ function createQuestionSelectMultiple() {
     $('#question-container').append(result);
 }
 
+// create html to display a toggle question
 function createQuestionToggle() {
     var newQuestion = PANEL_HEAD;
     newQuestion += createQuestionText(QUESTION_TOGGLE);
@@ -144,6 +150,21 @@ function createQuestionToggle() {
     $('#question-container').append(result);
 }
 
+// create the html to display survey details in a single line
+function createSurveyView(survey) {
+    console.log('createSurveyView');
+    console.log(survey);
+
+    return '<li>' + 
+    '<div class="row">' +
+    '<div class="col-xs-2">' + (survey.active ? 'OPEN' : 'CLOSED') + '</div>' +
+    '<div class="col-xs-9">' + survey.name + '</div>' +
+    '<div class="col-xs-1"><div class="btn btn-primary btn-block btn-view-survey" data-survey-id="' + survey._id + '">View</div></div>' +
+    '</div>' + 
+    '</li>';
+}
+
+// create a new survey
 function saveSurvey() {
     var surveyObj = {
         name: 'Placeholder',
@@ -214,6 +235,7 @@ function saveSurvey() {
     }
 }
 
+// get a list of surveys the current user owns
 function getSurveys() {
     if (gapi.auth2) {
         var profile = gapi.auth2.getAuthInstance().currentUser.get();
@@ -236,18 +258,16 @@ function getSurveys() {
 
 // add surveys to a list
 function displaySurveys(surveys) {
+    console.log('displaySurveys');
+
     var surveyList = $('#survey-list');
     surveyList.html('');
 
-    var surveyView = $('#survey-view');
-    surveyview.html('');
+    var surveyView = $('#survey-view'); 
+    surveyView.html('');
 
     for (var i = 0; i < surveys.length; i++) {
-        var surveyStatus = surveys[i].active;
-        var surveyName = surveys[i].name;
-        var surveyId = surveys[i].id;
-        
-        surveyList.append('<li>' + surveys[i].name + '</li>');
+        surveyList.append(createSurveyView(surveys[i]));
     }
 }
 
@@ -331,4 +351,11 @@ $(document).on("click", "#btn-nav-view", function(e) {
     $("#row-create-survey").hide();
     $("#row-view-survey").show();
     getSurveys();
+});
+
+$(document).on("click", ".btn-view-survey", function(e) {
+    e.preventDefault();
+    console.log('btn-view-survey');
+    console.log($(this).data('survey-id'));
+    //todo: get the results for this survey
 });
