@@ -43,10 +43,10 @@ var Main = React.createClass({
                                 <div className="btn btn-primary btn-block" id="btn-question-short" data-question-type="short">Short Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-info btn-block" id="btn-question-multi" data-question-type="multi-radio">Multiple Choice - Single Answer</div>
+                                <div className="btn btn-info btn-block" id="btn-question-single" data-question-type="multi-radio">Multiple Choice - Single Answer</div>
                             </div>
                             <div className="col-xs-3">
-                                <div className="btn btn-warning btn-block" id="btn-question-checkbox" data-question-type="multi-check">Multiple Choice - Multi Answer</div>
+                                <div className="btn btn-warning btn-block" id="btn-question-multi" data-question-type="multi-check">Multiple Choice - Multi Answer</div>
                             </div>
                             <div className="col-xs-3">
                                 <div className="btn btn-success btn-block" id="btn-question-toggle" data-question-type="toggle">Yes/No Toggle</div>

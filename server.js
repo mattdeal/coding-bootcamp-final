@@ -41,6 +41,35 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
+function validateAndRun(req, res, successCallback) {
+  console.log('validating...');
+
+  var token = req.body.token;
+  
+  try {
+    client.verifyIdToken(token, CLIENT_ID, function(e, login) {
+      var payload = login.getPayload();
+      var userId = payload['sub'];
+
+      console.log('valid');
+
+      successCallback(req, res, userId);
+    });
+  } catch (ex) {
+    console.log('invalid');
+
+    res.json({ errorMessage: 'You must be logged in to access this feature', error: ex.toString() });
+  } 
+}
+
+function createSurvey(req, res, userId) {
+  console.log('user validated with id' + userId);
+  var survey = req.body.survey;
+  console.log(survey);
+
+  res.json({ working: true });
+}
+
 // -------------------------------------------------
 
 // Main "/" Route. This will redirect the user to our rendered React application
@@ -59,15 +88,14 @@ app.post("/validate", function(req, res){
       res.json({ userId: userId });
     });
   } catch (ex) {
-    res.json( { errorMessage: 'You must be logged in to access this feature', error: ex.toString() });
+    res.json({ errorMessage: 'You must be logged in to access this feature', error: ex.toString() });
   }  
 });
 
 // create a survey
 app.post("/survey", function(req, res) {
-  //todo: validate req.body.token
-  //todo: store userid
-  //todo: create survey in db with userid as owner
+  console.log('received POST to /survey');
+  validateAndRun(req, res, createSurvey);
 });
 
 // create a response
