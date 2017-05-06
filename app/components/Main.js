@@ -82,7 +82,25 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row" id="row-submit-survey"></div>
+                <div className="row" id="row-create-response">
+                    <div className="col-xs-12">
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <div className="panel panel-default">
+                                    <div className="panel-body">
+                                        <ol id="response-question-list"></ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row" id="row-save-response">
+                            <div className="col-xs-12">
+                                <div className="btn btn-primary btn-block" id="btn-save-response">Save Response</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

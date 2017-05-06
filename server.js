@@ -33,7 +33,7 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // mongoose.connect("mongodb://admin:codingrocks@ds023664.mlab.com:23664/reactlocate");
-mongoose.connect("mongodb://localhost/survey");
+mongoose.connect("mongodb://localhost/survey1");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -44,6 +44,7 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
+// validate the user token and run successCallback when the token is valid
 function validateAndRun(token, req, res, successCallback) {
   console.log('validating...');
 
@@ -116,6 +117,18 @@ function getSurveys(req, res, userId) {
   });
 }
 
+// get a single Survey by Id
+function getSurvey(req, res, surveyId) {
+  Survey.findOne({ _id: surveyId }).exec(function(err, doc) {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(doc);
+      res.send(doc);
+    }
+  });
+}
+
 // -------------------------------------------------
 
 // Main "/" Route. This will redirect the user to our rendered React application
@@ -155,13 +168,20 @@ app.get("/surveys", function(req, res) {
   validateAndRun(req.query.token, req, res, getSurveys);
 });
 
-// get a single survey
+// render a page with the url that calls back for the survey to render
 app.get("/survey/:id", function(req, res) {
-  //todo: get a single survey
+  console.log('received GET to /survey/:id');
+  res.sendFile(__dirname + "/public/survey.html");
+});
+
+// get a single survey
+app.get("/api/survey/:id", function(req, res){
+  console.log('received GET to /api/survey/:id');
+  getSurvey(req, res, req.params.id);
 });
 
 // get the results for a single survey owned by the current user
-app.get("/results/:id", function(req, res){
+app.get("/response/:id", function(req, res){
   //todo: validate req.body.token
   //todo: store userid
   //todo: get all results for this surveyId

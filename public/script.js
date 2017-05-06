@@ -271,6 +271,93 @@ function displaySurveys(surveys) {
     }
 }
 
+// display a survey for the user to fill in
+function presentSurvey(survey) {
+    var questionList = $('#response-question-list');
+    questionList.html('');
+
+    //todo: display survey name somewhere
+
+    for (var i = 0; i < survey.questions.length; i++) {
+        questionList.append('<li>' + presentQuestion(survey.questions[i]) + '</li>');
+    }
+}
+
+// display a single question for the user to fill in
+function presentQuestion(question) {
+    switch(question.questionType) {
+        case QUESTION_SHORT:
+            return prepareShortAnswerQuestion(question);
+        break;
+        case QUESTION_SINGLE:
+            return prepareRadioButtonQuestion(question);
+        break;
+        case QUESTION_MULTI:
+            return prepareCheckboxQuestion(question);
+        break;
+        case QUESTION_TOGGLE:
+            return prepareToggleQuestion(question);
+        break;
+        default:
+            console.log('error, weird questionType');
+        break;
+    }
+}
+
+function prepareShortAnswerQuestion(question) {
+    return '<div class="panel panel-default">' + 
+    '<div class="panel-heading">' + question.text + '</div>' +
+    '<div class="panel-body">' +
+    //todo: add input with data-question-id = question._id
+    '</div>' + 
+    '</div>';
+}
+
+function prepareRadioButtonQuestion(question) {
+    return '<div class="panel panel-default">' + 
+    '<div class="panel-heading">' + question.text + '</div>' +
+    '<div class="panel-body">' +
+    //todo: add radiobutton with data-question-id = question._id
+    '</div>' + 
+    '</div>';
+}
+
+function prepareCheckboxQuestion(question) {
+    return '<div class="panel panel-default">' + 
+    '<div class="panel-heading">' + question.text + '</div>' +
+    '<div class="panel-body">' +
+    //todo: add checkbox with data-question-id = question._id
+    '</div>' + 
+    '</div>';
+}
+
+function prepareToggleQuestion(question) {
+    return '<div class="panel panel-default">' + 
+    '<div class="panel-heading">' + question.text + '</div>' +
+    '<div class="panel-body">' +
+    //todo: add toggle with data-question-id = question._id
+    '</div>' + 
+    '</div>';
+}
+
+$(document).ready(function() {
+    var location = window.location.pathname.trim().toUpperCase().split('/');
+    console.log(location);
+    // start at index 1 because of the / that preceeds pathname
+    switch (location[1]) {
+        case "SURVEY":
+            // get the survey referenced in the url for the user to fill out
+            console.log('SURVEY');
+            $.get("/api/survey/" + location[2], function(result) {
+                console.log('got result from /api/survey');
+                console.log(result);
+
+                presentSurvey(result);
+            });
+        break;
+    }
+});
+
 //note: this is how you get the user's token for validation
 $(document).on("click", "g-signin2", function(e){
     e.preventDefault();
