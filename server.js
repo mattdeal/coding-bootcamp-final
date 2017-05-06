@@ -10,8 +10,11 @@ var auth = new GoogleAuth;
 var CLIENT_ID = '522503509161-6nqe2itj8jpdje5uoa0ep6c99odreb8q.apps.googleusercontent.com';
 var client = new auth.OAuth2(CLIENT_ID, '', '');
 
-// Require History Schema
-// var History = require("./models/History");
+// Require Schema
+var Survey = require("./models/Survey");
+var Answer = require("./models/Answer");
+var Question = require("./models/Question");
+var Response = require("./models/Response");
 
 // Create Instance of Express
 var app = express();
@@ -65,9 +68,39 @@ function validateAndRun(req, res, successCallback) {
 function createSurvey(req, res, userId) {
   console.log('user validated with id' + userId);
   var survey = req.body.survey;
+  survey.owner = userId;
   console.log(survey);
 
-  res.json({ working: true });
+  var newSurvey = new Survey(survey);
+  console.log(newSurvey);
+
+  newSurvey.save(function(error, doc) {
+    if (error) {
+      console.log(error);
+      res.send(error);
+    } else {
+      res.send(doc);
+    }
+  });
+
+  // construct survey object for mongoose
+  // var survey = {
+  //   name: req.body.survey.name,
+  //   questions: []
+  // };
+
+  // var questions = req.body.survey.questions;
+  // for (var i = 0; i < questions.length; i++) {
+  //   var question = {
+  //     order: questions[i].order,
+  //     text: questions[i].text,
+  //     questionType: questions[i].questionType
+  //   };
+  // }
+
+  // console.log(survey);
+
+  // res.json({ working: true });
 }
 
 // -------------------------------------------------

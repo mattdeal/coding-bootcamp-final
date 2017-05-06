@@ -2,17 +2,20 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var SurveySchema = new Schema({
+  owner: {
+    type: String,
+    required: true
+  },
   name: {
     type: String,
     required: true
   },
   active: {
       type: Boolean,
-      default: true,
-      required: true
+      default: true
   },
   questions: [{
-    type: Schema.Types.ObjectId,
+    type: Schema.Types.Mixed,
     ref: "Question"
   }],
   responses: [{

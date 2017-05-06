@@ -7,7 +7,7 @@ var QuestionSchema = new Schema({
     required: true
   }, 
   order: {
-    type: Number,
+    type: String,
     required: true
   },
   questionType: {
@@ -15,7 +15,8 @@ var QuestionSchema = new Schema({
     required: true
   }, 
   answers: [{
-    type: String
+    type: String,
+    required: false
   }]
 });
 
