@@ -44,10 +44,10 @@ db.once("open", function() {
   console.log("Mongoose connection successful.");
 });
 
-function validateAndRun(req, res, successCallback) {
+function validateAndRun(token, req, res, successCallback) {
   console.log('validating...');
 
-  var token = req.body.token;
+  // var token = req.body.token;
   
   try {
     client.verifyIdToken(token, CLIENT_ID, function(e, login) {
@@ -65,6 +65,7 @@ function validateAndRun(req, res, successCallback) {
   } 
 }
 
+// create a Survey owned by userId
 function createSurvey(req, res, userId) {
   console.log('user validated with id' + userId);
   var survey = req.body.survey;
@@ -103,6 +104,18 @@ function createSurvey(req, res, userId) {
   // res.json({ working: true });
 }
 
+// get all Surveys owned by userId
+function getSurveys(req, res, userId) {
+  Survey.find({ owner: userId }).exec(function(err, doc) {
+    if (err) {
+      res.send(err);
+    } else {
+      console.log(doc);
+      res.send(doc);
+    }
+  });
+}
+
 // -------------------------------------------------
 
 // Main "/" Route. This will redirect the user to our rendered React application
@@ -128,19 +141,18 @@ app.post("/validate", function(req, res){
 // create a survey
 app.post("/survey", function(req, res) {
   console.log('received POST to /survey');
-  validateAndRun(req, res, createSurvey);
+  validateAndRun(req.body.token, req, res, createSurvey);
 });
 
 // create a response
 app.post("/response", function(req, res) {
-  //todo: create surveyResponse from req.body
+  //todo: create survey Response from req.body
 });
 
 // get all surveys owned by the current user
 app.get("/surveys", function(req, res) {
-  //todo: validate req.body.token
-  //todo: store userid
-  //todo: get all surveys where userid is the owner
+  console.log('received GET to /surveys');
+  validateAndRun(req.query.token, req, res, getSurveys);
 });
 
 // get a single survey

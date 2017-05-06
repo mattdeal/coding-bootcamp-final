@@ -27,14 +27,27 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row" id="row-view-survey"></div>
+                <div className="row" id="row-view-survey">
+                    <div className="col-xs-12">
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <ol id="survey-list"></ol>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col-xs-12">
+                                <div id="survey-view"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="row" id="row-create-survey">
                     <div className="col-xs-12">
                         <div className="row" id="row-questions">
                             <div className="col-xs-12">
-                                <ol id="question-container">
-                                </ol>
+                                <ol id="question-container"></ol>
                             </div>
                         </div>
 

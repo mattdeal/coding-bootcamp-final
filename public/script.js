@@ -204,11 +204,50 @@ function saveSurvey() {
         };
         
         $.post('/survey', args).then(function(result) {
-            console.log('results received');
+            console.log('saveSurvey received');
             console.log(result);
+
+            //todo: take user to results page?
         });
     } else {
         console.log('gapi.auth2 not found');
+    }
+}
+
+function getSurveys() {
+    if (gapi.auth2) {
+        var profile = gapi.auth2.getAuthInstance().currentUser.get();
+        var token = profile.getAuthResponse().id_token;
+        var args = {
+            token: token
+        };
+        
+        $.get('/surveys', args).then(function(result) {
+            console.log('getSurveys received');
+            console.log(result);
+
+            // display a list of all surveys owned by this user
+            displaySurveys(result);
+        });
+    } else {
+        console.log('gapi.auth2 not found');
+    }
+}
+
+// add surveys to a list
+function displaySurveys(surveys) {
+    var surveyList = $('#survey-list');
+    surveyList.html('');
+
+    var surveyView = $('#survey-view');
+    surveyview.html('');
+
+    for (var i = 0; i < surveys.length; i++) {
+        var surveyStatus = surveys[i].active;
+        var surveyName = surveys[i].name;
+        var surveyId = surveys[i].id;
+        
+        surveyList.append('<li>' + surveys[i].name + '</li>');
     }
 }
 
@@ -291,4 +330,5 @@ $(document).on("click", "#btn-nav-view", function(e) {
     console.log('view survey');
     $("#row-create-survey").hide();
     $("#row-view-survey").show();
+    getSurveys();
 });
