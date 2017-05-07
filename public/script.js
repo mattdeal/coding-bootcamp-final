@@ -285,6 +285,7 @@ function presentSurvey(survey) {
 
 // display a single question for the user to fill in
 function presentQuestion(question) {
+    console.log(question.questionType);
     switch(question.questionType) {
         case QUESTION_SHORT:
             return prepareShortAnswerQuestion(question);
@@ -305,39 +306,87 @@ function presentQuestion(question) {
 }
 
 function prepareShortAnswerQuestion(question) {
-    return '<div class="panel panel-default">' + 
-    '<div class="panel-heading">' + question.text + '</div>' +
-    '<div class="panel-body">' +
-    //todo: add input with data-question-id = question._id
-    '</div>' + 
-    '</div>';
+    var result = '<div class="panel panel-default">' + 
+        '<div class="panel-heading">' + question.text + '</div>' +
+        '<div class="panel-body">' +
+        '<div class="form-group">' +
+        '<div class="col-xs-12">' +
+        '<input type="text" class="form-control answer-text"' + 
+        ' data-question-id="' + question._id + '">' +
+        '</div>' +
+        '</div>' +
+        '</div>' + 
+        '</div>';
+
+    return result;
 }
 
 function prepareRadioButtonQuestion(question) {
-    return '<div class="panel panel-default">' + 
-    '<div class="panel-heading">' + question.text + '</div>' +
-    '<div class="panel-body">' +
-    //todo: add radiobutton with data-question-id = question._id
-    '</div>' + 
-    '</div>';
+    var optionsString = '';
+    for (var i = 0; i < question.answers.length; i++) {
+        optionsString += '<div class="radio"><label>' +
+            '<input type="radio" class="answer-radio"' + 
+            ' data-question-id="' + question._id + 
+            '" value="' + question.answers[i] +
+            '">' + 
+            question.answers[i] +
+            '</label></div>';
+    }
+    var result = '<div class="panel panel-default">' + 
+        '<div class="panel-heading">' + question.text + '</div>' +
+        '<div class="panel-body">' +
+        '<form class="form-horizontal"><fieldset>' +
+        '<div class="form-group">' +
+        '<div class="col-xs-12">' +
+        optionsString +
+        '</div>' +
+        '</div>' +
+        '</fieldset></form>' +
+        '</div>' + 
+        '</div>';
+
+    return result;
 }
 
 function prepareCheckboxQuestion(question) {
-    return '<div class="panel panel-default">' + 
-    '<div class="panel-heading">' + question.text + '</div>' +
-    '<div class="panel-body">' +
-    //todo: add checkbox with data-question-id = question._id
-    '</div>' + 
-    '</div>';
+        var optionsString = '';
+    for (var i = 0; i < question.answers.length; i++) {
+        optionsString += '<div class="checkbox"><label>' +
+            '<input type="checkbox" class="answer-checkbox"' + 
+            ' data-question-id="' + question._id + 
+            '" value="' + question.answers[i] +
+            '">' + 
+            question.answers[i] +
+            '</label></div>';
+    }
+    var result = '<div class="panel panel-default">' + 
+        '<div class="panel-heading">' + question.text + '</div>' +
+        '<div class="panel-body">' +
+        '<form class="form-horizontal"><fieldset>' +
+        '<div class="form-group">' +
+        '<div class="col-xs-12">' +
+        optionsString +
+        '</div>' +
+        '</div>' +
+        '</fieldset></form>' +
+        '</div>' + 
+        '</div>';
+
+    return result;
 }
 
 function prepareToggleQuestion(question) {
-    return '<div class="panel panel-default">' + 
-    '<div class="panel-heading">' + question.text + '</div>' +
-    '<div class="panel-body">' +
-    //todo: add toggle with data-question-id = question._id
-    '</div>' + 
-    '</div>';
+    var result = '<div class="panel panel-default">' + 
+        '<div class="panel-heading">' + question.text + '</div>' +
+        '<div class="panel-body">' +
+        '<label class="switch">' + 
+        '<input type="checkbox" class="answer-toggle" data-question-id="' + question._id + 
+        '"><div class="slider round"></div>' + 
+        '</label>' +
+        '</div>' + 
+        '</div>';
+
+    return result;
 }
 
 $(document).ready(function() {
