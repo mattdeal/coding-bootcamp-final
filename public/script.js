@@ -306,6 +306,10 @@ function presentQuestion(question) {
 }
 
 function prepareShortAnswerQuestion(question) {
+    var id = question._id;
+    console.log('id=', id);
+    console.log(question);
+    
     var result = '<div class="panel panel-default">' + 
         '<div class="panel-heading">' + question.text + '</div>' +
         '<div class="panel-body">' +
@@ -494,4 +498,10 @@ $(document).on("click", ".btn-view-survey", function(e) {
     console.log('btn-view-survey');
     console.log($(this).data('survey-id'));
     //todo: get the results for this survey
+});
+
+$(document).on("click", ".btn-save-response", function(e) {
+    e.preventDefault();
+
+
 });

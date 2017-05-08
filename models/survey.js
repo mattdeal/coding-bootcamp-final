@@ -15,7 +15,7 @@ var SurveySchema = new Schema({
       default: true
   },
   questions: [{
-    type: Schema.Types.Mixed,
+    type: Schema.Types.ObjectId,
     ref: "Question"
   }],
   responses: [{

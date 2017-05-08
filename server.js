@@ -33,7 +33,7 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // mongoose.connect("mongodb://admin:codingrocks@ds023664.mlab.com:23664/reactlocate");
-mongoose.connect("mongodb://localhost/survey1");
+mongoose.connect("mongodb://localhost/survey4");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
@@ -68,9 +68,11 @@ function validateAndRun(token, req, res, successCallback) {
 
 // create a Survey owned by userId
 function createSurvey(req, res, userId) {
-  console.log('user validated with id' + userId);
-  var survey = req.body.survey;
-  survey.owner = userId;
+  console.log('user validated with id=' + userId);
+  var survey = {
+    name: req.body.survey.name,
+    owner: userId
+  };
   console.log(survey);
 
   var newSurvey = new Survey(survey);
@@ -78,31 +80,47 @@ function createSurvey(req, res, userId) {
 
   newSurvey.save(function(error, doc) {
     if (error) {
+      console.log('error creating survey');
       console.log(error);
       res.send(error);
     } else {
-      res.send(doc);
+      var questions = req.body.survey.questions;
+      Question.create(questions, function(errorQ, dQuestions) {
+        if (errorQ) {
+          console.log('error creating questions');
+          console.log(errorQ);
+          res.send(errorQ);
+        } else {
+          Survey.findOneAndUpdate({ _id: newSurvey._id }, 
+          { $pushAll: { "questions": dQuestions }},
+          function(errorS, dSurvey) {
+            if (errorS) {
+              console.log('error adding questions to survey');
+              console.log(errorS);
+              res.send(errorS);
+            } else {
+              console.log('finished updating, dSurvey should have all questions loaded');
+              console.log(dSurvey);
+              res.send(dSurvey);
+              
+              // used to debug full survey
+              // console.log('getting full survey');
+              // Survey.findOne({ _id: newSurvey._id })
+              //   .populate('questions')
+              //   .exec(function(errT, docT) {
+              //     if (errT) {
+              //       res.send(errT);
+              //     } else {
+              //       console.log(docT);
+              //       res.send(docT);
+              //     }
+              // });
+            }
+          });
+        }
+      });
     }
   });
-
-  // construct survey object for mongoose
-  // var survey = {
-  //   name: req.body.survey.name,
-  //   questions: []
-  // };
-
-  // var questions = req.body.survey.questions;
-  // for (var i = 0; i < questions.length; i++) {
-  //   var question = {
-  //     order: questions[i].order,
-  //     text: questions[i].text,
-  //     questionType: questions[i].questionType
-  //   };
-  // }
-
-  // console.log(survey);
-
-  // res.json({ working: true });
 }
 
 // get all Surveys owned by userId
@@ -119,7 +137,7 @@ function getSurveys(req, res, userId) {
 
 // get a single Survey by Id
 function getSurvey(req, res, surveyId) {
-  Survey.findOne({ _id: surveyId }).exec(function(err, doc) {
+  Survey.findOne({ _id: surveyId }).populate('questions').exec(function(err, doc) {
     if (err) {
       res.send(err);
     } else {
