@@ -167,7 +167,7 @@ function createSurveyView(survey) {
 // create a new survey
 function saveSurvey() {
     var surveyObj = {
-        name: 'Placeholder',
+        name: $('#input-survey-name').val().trim(),
         questions: []
     };
 
@@ -228,7 +228,24 @@ function saveSurvey() {
             console.log('saveSurvey received');
             console.log(result);
 
-            //todo: take user to results page?
+            if (result.error) {
+                //todo: show that there's a problem
+            } else {
+                // hide this row
+                $('#row-create-survey').hide();
+
+                // clear question container
+                $('#question-container').html('');
+
+                // clear name
+                $('#input-survey-name').val('');
+
+                // show surveys
+                getSurveys();
+
+                // show survey row
+                $('#row-view-survey').show();
+            }
         });
     } else {
         console.log('gapi.auth2 not found');
@@ -399,6 +416,9 @@ $(document).ready(function() {
     // start at index 1 because of the / that preceeds pathname
     switch (location[1]) {
         case "SURVEY":
+            // hide the nav bar
+            $('#row-nav').hide();
+
             // get the survey referenced in the url for the user to fill out
             console.log('SURVEY');
             $.get("/api/survey/" + location[2], function(result) {
@@ -464,18 +484,22 @@ $(document).on("click", ".btn-add-option", function(e) {
     var optionInput = $('#' + optionInputId);
     var optionText = optionInput.val().trim();
 
-    var answerContainerId = $(this).data('answer-container');
-    console.log(answerContainerId);
-    var answerContainer = $('#' + answerContainerId);
+    if (optionText.length > 0) {
+        var answerContainerId = $(this).data('answer-container');
+        console.log(answerContainerId);
+        var answerContainer = $('#' + answerContainerId);
 
-    var questionId = $(this).data('question-id');
+        var questionId = $(this).data('question-id');
 
-    answerContainer.append('<li class="answer_' + questionId + 
-    '" data-question-id="' + questionId + 
-    '" data-option-text="'+ optionText + 
-    '">' + optionText + '</li>');
+        answerContainer.append('<li class="answer_' + questionId + 
+        '" data-question-id="' + questionId + 
+        '" data-option-text="'+ optionText + 
+        '">' + optionText + '</li>');
 
-    optionInput.val('');
+        optionInput.val('');
+    } else {
+        //todo: show user an error message that this cannot be empty
+    }
 });
 
 $(document).on("click", "#btn-nav-create", function(e) {
@@ -497,6 +521,7 @@ $(document).on("click", ".btn-view-survey", function(e) {
     e.preventDefault();
     console.log('btn-view-survey');
     console.log($(this).data('survey-id'));
+
     //todo: get the results for this survey
 });
 
