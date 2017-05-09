@@ -294,6 +294,7 @@ function presentSurvey(survey) {
     questionList.html('');
 
     //todo: display survey name somewhere
+    $('#display-survey-name').html(survey.name);
 
     for (var i = 0; i < survey.questions.length; i++) {
         questionList.append('<li>' + presentQuestion(survey.questions[i]) + '</li>');
@@ -579,5 +580,13 @@ $(document).on("click", "#btn-save-response", function(e) {
     $.post('/response', resp).then(function(result) {
         console.log('finished posting response');
         console.log(result);
+
+        if (result.error) {
+            //todo: display error
+        } else {
+            $('#row-thank-you').show();
+            $('#row-save-response').hide();
+            $('#row-create-response').hide();
+        }
     });
 });

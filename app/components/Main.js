@@ -54,7 +54,7 @@ var Main = React.createClass({
                                 <div className="panel panel-default">
                                     <div className="panel-body">
                                         <div className="form-group">
-                                            <label for="inputEmail" className="col-lg-2 control-label">Survey Name</label>
+                                            <label htmlFor="input-survey-name" className="col-lg-2 control-label">Survey Name</label>
                                             <div className="col-lg-10">
                                                 <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
                                             </div>
@@ -94,6 +94,7 @@ var Main = React.createClass({
                             <div className="col-xs-12">
                                 <div className="panel panel-default">
                                     <div className="panel-body">
+                                        <h2 id="display-survey-name"></h2>
                                         <ol id="response-question-list"></ol>
                                     </div>
                                 </div>
@@ -105,6 +106,12 @@ var Main = React.createClass({
                                 <div className="btn btn-primary btn-block" id="btn-save-response">Save Response</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div className="row" id="row-thank-you" style={{display: 'none'}}>
+                    <div className="col-xs-12">
+                        <h2>Thank You!</h2>
                     </div>
                 </div>
             </div>
