@@ -6,10 +6,10 @@ var ResponseSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Survey"
   },
-  answers: {
+  answers: [{
     type: Schema.Types.ObjectId,
-    ref: "Answer"
-  }
+    ref: "Answers"
+  }]
   //todo: do we need a responseTime/creationTime?
 });
 

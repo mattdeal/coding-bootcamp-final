@@ -3,12 +3,12 @@ var Schema = mongoose.Schema;
 
 var AnswerSchema = new Schema({
   question: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: "Question"
   },
   value : {
-      type: String,
-      required: true
+    type: String,
+    required: true
   }
 });
 

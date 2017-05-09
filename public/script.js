@@ -6,6 +6,14 @@ const QUESTION_TOGGLE = 'toggle';
 const PANEL_HEAD = '<li><div class="panel panel-default"><div class="panel-body">';
 const PANEL_FOOT = '</div></div></li>';
 
+// google's version of document.ready
+google.setOnLoadCallback(googleReady);
+
+// call any google specific functions here
+function googleReady() {
+    console.log('google ready');    
+}
+
 // log user out of the application (not google), and hide all items that require a session
 function onGoogleSignOut() {
     var auth2 = gapi.auth2.getAuthInstance();
@@ -30,9 +38,6 @@ function onGoogleSignIn(googleUser) {
     //todo: hide login button
     //todo: show logout button
 }
-
-// google's version of document.ready
-google.setOnLoadCallback(googleReady);
 
 // create html for an input that allows a user to specify question text
 function createQuestionText(questionType) {
@@ -83,11 +88,6 @@ function createOptions() {
     '<ol id="' + answerContainer + '"></ol>' +
     '</div>' + 
     '</div>';
-}
-
-// call any google specific functions here
-function googleReady() {
-    console.log('google ready');    
 }
 
 // create html to display a short question
@@ -309,7 +309,7 @@ function prepareShortAnswerQuestion(question) {
     var id = question._id;
     console.log('id=', id);
     console.log(question);
-    
+
     var result = '<div class="panel panel-default">' + 
         '<div class="panel-heading">' + question.text + '</div>' +
         '<div class="panel-body">' +
@@ -500,8 +500,59 @@ $(document).on("click", ".btn-view-survey", function(e) {
     //todo: get the results for this survey
 });
 
-$(document).on("click", ".btn-save-response", function(e) {
+$(document).on("click", "#btn-save-response", function(e) {
     e.preventDefault();
+    
+    var answers = [];
 
+    $('.answer-text').each(function(index, item) {
+        var answer = {
+            question: $(item).data('question-id'),
+            value: $(item).val().trim()
+        };
 
+        answers.push(answer);
+    });
+
+    $('.answer-radio:checked').each(function(index, item) {
+        var answer = {
+            question: $(item).data('question-id'),
+            value: $(item).val().trim()
+        };
+
+        answers.push(answer);
+    });
+
+    $('.answer-checkbox:checked').each(function(index, item) {
+        var answer = {
+            question: $(item).data('question-id'),
+            value: $(item).val().trim()
+        };
+
+        answers.push(answer);
+    });
+
+    $('.answer-toggle').each(function(index, item) {
+        var answer = {
+            question: $(item).data('question-id'),
+            value: $(item).val().trim()
+        };
+
+        answers.push(answer);
+    });
+
+    console.log('got answers');
+    console.log(answers);
+
+    var resp = {
+        survey: window.location.pathname.trim().toUpperCase().split('/')[2],
+        answers: answers
+    }
+
+    console.log(resp);
+
+    $.post('/response', resp).then(function(result) {
+        console.log('finished posting response');
+        console.log(result);
+    });
 });

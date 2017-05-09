@@ -177,7 +177,39 @@ app.post("/survey", function(req, res) {
 
 // create a response
 app.post("/response", function(req, res) {
-  //todo: create survey Response from req.body
+  var newResponse = new Response( { survey: req.body.survey });
+  console.log(newResponse);
+  newResponse.save(function(err, doc) {
+    if (err) {
+      console.log('error saving response');
+      console.log(err);
+      res.send(error);
+    } else {
+      console.log(doc);
+      var answers = req.body.answers;
+      Answer.create(answers, function(errorA, dAnswers) {
+        if (errorA) {
+          console.log('error saving answers');
+          console.log(errorA);
+          res.send(errorA);
+        } else {
+          console.log(dAnswers);
+          Response.findOneAndUpdate({ _id: newResponse._id },
+          { $pushAll: {"answers": dAnswers} },
+          function(errorR, dResponse) {
+            if (errorR) {
+              console.log('error adding answers to response');
+              console.log(errorR);
+              res.send(errorR);
+            } else {
+              console.log(dResponse);
+              res.send(dResponse);
+            }
+          });
+        }
+      })
+    }
+  });
 });
 
 // get all surveys owned by the current user
