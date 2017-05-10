@@ -147,6 +147,12 @@ function getSurvey(req, res, surveyId) {
   });
 }
 
+// todo: should this be /answer/:questionId
+// get a response for the specified survey that the user owns
+function getResponse(req, res, userId) {
+
+}
+
 // -------------------------------------------------
 
 // Main "/" Route. This will redirect the user to our rendered React application
@@ -230,11 +236,11 @@ app.get("/api/survey/:id", function(req, res){
   getSurvey(req, res, req.params.id);
 });
 
+// todo: should this be /answer/:questionId
 // get the results for a single survey owned by the current user
 app.get("/response/:id", function(req, res){
-  //todo: validate req.body.token
-  //todo: store userid
-  //todo: get all results for this surveyId
+  console.log('received GET to /response/:id');
+  validateAndRun(req.query.token, req, res, getResponse);
 });
 
 // -------------------------------------------------
