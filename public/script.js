@@ -516,8 +516,15 @@ function displayToggleAnswer(appendTo, question) {
             '<div class="panel-heading">' + question.text + '</div>' +
             '<div class="panel-body"><ol>';
 
+        var dict = {};
+
         for (var i = 0; i < result.length; i++) {
-            output += '<li>' + result[i].value + '</li>';
+            if (dict[reslult[i].value]) {
+                dict[result[i].value]++;
+            } else {
+                dict[result[i].value] = 1;
+            }
+            // output += '<li>' + result[i].value + '</li>';
         }
 
         output += '</ol></div></div>';
