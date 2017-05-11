@@ -9,6 +9,9 @@ const PANEL_FOOT = '</div></div></li>';
 // google's version of document.ready
 google.setOnLoadCallback(googleReady);
 
+// load google charts
+google.charts.load('current', {'packages':['corechart']});
+
 // call any google specific functions here
 function googleReady() {
     console.log('google ready');    
@@ -232,7 +235,7 @@ function saveSurvey() {
                 //todo: show that there's a problem
             } else {
                 // hide this row
-                $('#row-create-survey').hide();
+                hideRows();
 
                 // clear question container
                 $('#question-container').html('');
@@ -307,16 +310,12 @@ function presentQuestion(question) {
     switch(question.questionType) {
         case QUESTION_SHORT:
             return prepareShortAnswerQuestion(question);
-        break;
         case QUESTION_SINGLE:
             return prepareRadioButtonQuestion(question);
-        break;
         case QUESTION_MULTI:
             return prepareCheckboxQuestion(question);
-        break;
         case QUESTION_TOGGLE:
             return prepareToggleQuestion(question);
-        break;
         default:
             console.log('error, weird questionType');
         break;
@@ -411,6 +410,138 @@ function prepareToggleQuestion(question) {
     return result;
 }
 
+function prepareResponse(appendTo, question) {
+    console.log('prepareResponse', question);
+
+    switch (question.questionType) {
+        case QUESTION_SHORT:
+            return displayShortAnswer(appendTo, question);
+        case QUESTION_MULTI:
+            return displayMultiAnswer(appendTo, question);
+        case QUESTION_SINGLE:
+            return displaySingleAnswer(appendTo, question);
+        case QUESTION_TOGGLE:
+            return displayToggleAnswer(appendTo, question);
+        default:
+            console.log('unknown question type');
+            console.log(question);
+        break;
+    }
+}
+
+// display the results of a survey
+function presentResponses(survey) {
+    var responseList = $('#response-list');
+    responseList.html('');
+
+    for (var i = 0; i < survey.questions.length; i++) {
+        prepareResponse(responseList, survey.questions[i]);
+    }
+}
+
+function displayShortAnswer(appendTo, question) {
+    var questionId = question._id;
+
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
+
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
+}
+
+//todo: multi answer - bar chart
+function displayMultiAnswer(appendTo, question) {
+    var questionId = question._id;
+
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
+
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
+}
+
+// todo: single answer - pie chart
+function displaySingleAnswer(appendTo, question) {
+    var questionId = question._id;
+
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
+
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
+}
+
+// todo toggle - pie chart
+function displayToggleAnswer(appendTo, question) {
+    var questionId = question._id;
+
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
+
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        var dict = {};
+
+        for (var i = 0; i < result.length; i++) {
+            if (dict[reslult[i].value]) {
+                dict[result[i].value]++;
+            } else {
+                dict[result[i].value] = 1;
+            }
+            // output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
+}
+
+// hide all the rows
+function hideRows() {
+    $('#row-view-survey').hide();
+    $('#row-create-survey').hide();
+    $('#row-create-response').hide();
+    $('#row-thank-you').hide();
+    $('#row-view-response').hide();
+}
+
 $(document).ready(function() {
     var location = window.location.pathname.trim().toUpperCase().split('/');
     console.log(location);
@@ -419,6 +550,7 @@ $(document).ready(function() {
         case "SURVEY":
             // hide the nav bar
             $('#row-nav').hide();
+            hideRows();
 
             // get the survey referenced in the url for the user to fill out
             console.log('SURVEY');
@@ -427,6 +559,7 @@ $(document).ready(function() {
                 console.log(result);
 
                 presentSurvey(result);
+                $('#row-create-response').show();
             });
         break;
     }
@@ -506,14 +639,14 @@ $(document).on("click", ".btn-add-option", function(e) {
 $(document).on("click", "#btn-nav-create", function(e) {
     e.preventDefault();
     console.log('create survey');
+    hideRows();
     $("#row-create-survey").show();
-    $("#row-view-survey").hide();
 });
 
 $(document).on("click", "#btn-nav-view", function(e) {
     e.preventDefault();
     console.log('view survey');
-    $("#row-create-survey").hide();
+    hideRows();    
     $("#row-view-survey").show();
     getSurveys();
 });
@@ -523,7 +656,22 @@ $(document).on("click", ".btn-view-survey", function(e) {
     console.log('btn-view-survey');
     console.log($(this).data('survey-id'));
 
-    //todo: get the results for this survey
+    // hide rows
+    hideRows();
+
+    // clear the response list
+    $('#response-list').html('');
+
+    // show correct row
+    $('#row-view-response').show();
+
+    // get the survey object (for questions) and display the results
+    $.get("/api/survey/" + $(this).data('survey-id'), function(result) {
+        console.log('got result from /api/survey for view-survey');
+        console.log(result);
+
+        presentResponses(result);
+    });
 });
 
 $(document).on("click", "#btn-save-response", function(e) {
@@ -584,9 +732,8 @@ $(document).on("click", "#btn-save-response", function(e) {
         if (result.error) {
             //todo: display error
         } else {
+            hideRows();
             $('#row-thank-you').show();
-            $('#row-save-response').hide();
-            $('#row-create-response').hide();
         }
     });
 });

@@ -27,7 +27,7 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row" id="row-view-survey">
+                <div className="row" id="row-view-survey"  style={{display: 'none'}}>
                     <div className="col-xs-12">
                         <div className="row">
                             <div className="col-xs-12">
@@ -47,7 +47,13 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row" id="row-create-survey">
+                <div className="row" id="row-view-response"  style={{display: 'none'}}>
+                    <div className="col-xs-12">
+                        <ol id="response-list"></ol>
+                    </div>
+                </div>
+
+                <div className="row" id="row-create-survey"  style={{display: 'none'}}>
                     <div className="col-xs-12">
                         <div className="row" id="row-questions">
                             <div className="col-xs-12">
@@ -88,7 +94,7 @@ var Main = React.createClass({
                     </div>
                 </div>
 
-                <div className="row" id="row-create-response">
+                <div className="row" id="row-create-response"  style={{display: 'none'}}>
                     <div className="col-xs-12">
                         <div className="row">
                             <div className="col-xs-12">
