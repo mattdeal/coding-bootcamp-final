@@ -9,6 +9,9 @@ const PANEL_FOOT = '</div></div></li>';
 // google's version of document.ready
 google.setOnLoadCallback(googleReady);
 
+// load google charts
+google.charts.load('current', {'packages':['corechart']});
+
 // call any google specific functions here
 function googleReady() {
     console.log('google ready');    
@@ -407,16 +410,18 @@ function prepareToggleQuestion(question) {
     return result;
 }
 
-function prepareResponse(question) {
+function prepareResponse(appendTo, question) {
+    console.log('prepareResponse', question);
+
     switch (question.questionType) {
         case QUESTION_SHORT:
-            return displayShortAnswer(question);
+            return displayShortAnswer(appendTo, question);
         case QUESTION_MULTI:
-            return displayMultiAnswer(question);
+            return displayMultiAnswer(appendTo, question);
         case QUESTION_SINGLE:
-            return displaySingleAnswer(question);
+            return displaySingleAnswer(appendTo, question);
         case QUESTION_TOGGLE:
-            return displayToggleAnswer(question);
+            return displayToggleAnswer(appendTo, question);
         default:
             console.log('unknown question type');
             console.log(question);
@@ -426,57 +431,99 @@ function prepareResponse(question) {
 
 // display the results of a survey
 function presentResponses(survey) {
+    var responseList = $('#response-list');
+    responseList.html('');
+
     for (var i = 0; i < survey.questions.length; i++) {
-        var response = prepareResponse(survey.questions[i]);
+        prepareResponse(responseList, survey.questions[i]);
     }
 }
 
-function displayShortAnswer(question) {
+function displayShortAnswer(appendTo, question) {
     var questionId = question._id;
 
-    var result = '<div class="panel panel-default">' + 
-        '<div class="panel-heading">' + question.text + '</div>' +
-        '<div class="panel-body">' + 'RESPONSES GO HERE' +
-        '</div>' + 
-        '</div>';
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
 
-    return result;
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
 }
 
-function displayMultiAnswer(question) {
+//todo: multi answer - bar chart
+function displayMultiAnswer(appendTo, question) {
     var questionId = question._id;
 
-    var result = '<div class="panel panel-default">' + 
-        '<div class="panel-heading">' + question.text + '</div>' +
-        '<div class="panel-body">' + 'RESPONSES GO HERE' +
-        '</div>' + 
-        '</div>';
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
 
-    return result;
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
 }
 
-function displaySingleAnswer(question) {
+// todo: single answer - pie chart
+function displaySingleAnswer(appendTo, question) {
     var questionId = question._id;
 
-    var result = '<div class="panel panel-default">' + 
-        '<div class="panel-heading">' + question.text + '</div>' +
-        '<div class="panel-body">' + 'RESPONSES GO HERE' +
-        '</div>' + 
-        '</div>';
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
 
-    return result;
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
 }
 
-function displayToggleAnswer(question) {
+// todo toggle - pie chart
+function displayToggleAnswer(appendTo, question) {
     var questionId = question._id;
 
-    var result = '<div class="panel panel-default">' + 
-        '<div class="panel-heading">' + question.text + '</div>' +
-        '<div class="panel-body">' + 'RESPONSES GO HERE' +
-        '</div>' + 
-        '</div>';
+    $.get('/answers/' + questionId, function(result) {
+        console.log('got answers for question');
+        console.log(result);
 
-    return result;
+        var output = '<div class="panel panel-default">' + 
+            '<div class="panel-heading">' + question.text + '</div>' +
+            '<div class="panel-body"><ol>';
+
+        for (var i = 0; i < result.length; i++) {
+            output += '<li>' + result[i].value + '</li>';
+        }
+
+        output += '</ol></div></div>';
+
+        appendTo.append('<li>' + output + '</li>');
+    });
 }
 
 // hide all the rows
@@ -505,6 +552,7 @@ $(document).ready(function() {
                 console.log(result);
 
                 presentSurvey(result);
+                $('#row-create-response').show();
             });
         break;
     }
