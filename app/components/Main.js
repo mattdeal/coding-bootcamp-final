@@ -59,10 +59,14 @@ var Main = React.createClass({
                             <div className="col-xs-12">
                                 <div className="panel panel-default">
                                     <div className="panel-body">
-                                        <div className="form-group">
-                                            <label htmlFor="input-survey-name" className="col-lg-2 control-label">Survey Name</label>
-                                            <div className="col-lg-10">
-                                                <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
+                                        <div className="row">
+                                            <div className="col-xs-12">
+                                                <div className="form-group">
+                                                    <label htmlFor="input-survey-name" className="col-lg-2 control-label">Survey Name</label>
+                                                    <div className="col-lg-10">
+                                                        <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <ol id="question-container"></ol>
