@@ -465,20 +465,31 @@ function displayMultiAnswer(appendTo, question) {
     var questionId = question._id;
 
     $.get('/answers/' + questionId, function(result) {
-        console.log('got answers for question');
-        console.log(result);
-
         var output = '<div class="panel panel-default">' + 
             '<div class="panel-heading">' + question.text + '</div>' +
-            '<div class="panel-body"><ol>';
-
-        for (var i = 0; i < result.length; i++) {
-            output += '<li>' + result[i].value + '</li>';
-        }
-
-        output += '</ol></div></div>';
+            '<div class="panel-body">' +
+            '<div id="chart-' + questionId + '"' +
+            '</div></div>';
 
         appendTo.append('<li>' + output + '</li>');
+
+        var chartsObj = makeGoogleChartObject(result);
+
+        // draw chart if there are results
+        if (chartsObj.length > 0) {
+            // add headers
+            chartsObj.splice(0, 0, ['Answer', 'Count']);
+        
+            // draw chart
+            var data = google.visualization.arrayToDataTable(chartsObj);
+            var options = {
+                title: question.text
+            };
+
+            var chart = new google.visualization.BarChart(document.getElementById('chart-' + questionId));
+            // chart.draw(data, options);
+            chart.draw(data);
+        }
     });
 }
 
@@ -487,20 +498,31 @@ function displaySingleAnswer(appendTo, question) {
     var questionId = question._id;
 
     $.get('/answers/' + questionId, function(result) {
-        console.log('got answers for question');
-        console.log(result);
-
         var output = '<div class="panel panel-default">' + 
             '<div class="panel-heading">' + question.text + '</div>' +
-            '<div class="panel-body"><ol>';
-
-        for (var i = 0; i < result.length; i++) {
-            output += '<li>' + result[i].value + '</li>';
-        }
-
-        output += '</ol></div></div>';
+            '<div class="panel-body">' +
+            '<div id="chart-' + questionId + '"' +
+            '</div></div>';
 
         appendTo.append('<li>' + output + '</li>');
+
+        var chartsObj = makeGoogleChartObject(result);
+
+        // don't draw blank charts
+        if (chartsObj.length > 0) {
+            // add headers
+            chartsObj.splice(0, 0, ['Answer', 'Count']);
+            
+            // draw chart
+            var data = google.visualization.arrayToDataTable(chartsObj);
+            var options = {
+            title: question.text
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart-' + questionId));
+            // chart.draw(data, options);
+            chart.draw(data);
+        }
     });
 }
 
@@ -509,27 +531,31 @@ function displayToggleAnswer(appendTo, question) {
     var questionId = question._id;
 
     $.get('/answers/' + questionId, function(result) {
-        console.log('got answers for question');
-        console.log(result);
-
         var output = '<div class="panel panel-default">' + 
             '<div class="panel-heading">' + question.text + '</div>' +
-            '<div class="panel-body"><ol>';
-
-        var dict = {};
-
-        for (var i = 0; i < result.length; i++) {
-            if (dict[reslult[i].value]) {
-                dict[result[i].value]++;
-            } else {
-                dict[result[i].value] = 1;
-            }
-            // output += '<li>' + result[i].value + '</li>';
-        }
-
-        output += '</ol></div></div>';
+            '<div class="panel-body">' +
+            '<div id="chart-' + questionId + '"' +
+            '</div></div>';
 
         appendTo.append('<li>' + output + '</li>');
+
+        var chartsObj = makeGoogleChartObject(result);
+
+        // don't draw blank charts
+        if (chartsObj.length > 0) {
+            // add headers
+            chartsObj.splice(0, 0, ['Answer', 'Count']);
+            
+            // draw chart
+            var data = google.visualization.arrayToDataTable(chartsObj);
+            var options = {
+            title: question.text
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart-' + questionId));
+            // chart.draw(data, options);
+            chart.draw(data);
+        }
     });
 }
 
@@ -540,6 +566,27 @@ function hideRows() {
     $('#row-create-response').hide();
     $('#row-thank-you').hide();
     $('#row-view-response').hide();
+}
+
+// helper function to convert an object to the format required by google charts
+function makeGoogleChartObject(obj){
+    var dict = {};
+    for (var i = 0; i < obj.length; i++) {
+        console.log('obj = ', obj[i]);
+        console.log('obj.value = ', obj[i].value);
+
+        if (dict[obj[i].value]) {
+            dict[obj[i].value]++;
+        } else {
+            dict[obj[i].value] = 1;
+        }
+    }
+
+    var output = Object.keys(dict).map(function(e) {
+        return [e.toString(), dict[e]];
+    }); 
+
+    return output;
 }
 
 $(document).ready(function() {
