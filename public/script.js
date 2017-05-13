@@ -399,12 +399,12 @@ function prepareCheckboxQuestion(question) {
 function prepareToggleQuestion(question) {
     var result = '<div class="panel panel-default">' + 
         '<div class="panel-heading">' + question.text + '</div>' +
-        '<div class="panel-body">' +
+        '<div class="panel-body">NO' +
         '<label class="switch">' + 
         '<input type="checkbox" class="answer-toggle" data-question-id="' + question._id + 
         '"><div class="slider round"></div>' + 
         '</label>' +
-        '</div>' + 
+        'YES</div>' + 
         '</div>';
 
     return result;
@@ -526,7 +526,7 @@ function displaySingleAnswer(appendTo, question) {
     });
 }
 
-// oggle - pie chart
+// toggle - pie chart
 function displayToggleAnswer(appendTo, question) {
     var questionId = question._id;
 
@@ -621,6 +621,12 @@ $(document).on('click', ".answer-radio", function(e) {
 
     $(this).prop('checked', true);
 });
+
+// $(document).on('click', ".answer-toggle", function(e) {
+//     console.log('clicked toggle');
+//     var rb = $(this);
+//     $(this).prop('checked', !(rb.prop('checked')) );
+// });
 
 $(document).on("click", "g-signin2", function(e){
     e.preventDefault();
@@ -765,7 +771,7 @@ $(document).on("click", "#btn-save-response", function(e) {
     $('.answer-toggle').each(function(index, item) {
         var answer = {
             question: $(item).data('question-id'),
-            value: $(item).val().trim()
+            value: $(item).prop('checked') === true ? 'Yes' : 'No'
         };
 
         answers.push(answer);
