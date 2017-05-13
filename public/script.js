@@ -358,7 +358,7 @@ function prepareRadioButtonQuestion(question) {
         '<div class="panel-body">' +
         '<form class="form-horizontal"><fieldset>' +
         '<div class="form-group">' +
-        '<div class="col-xs-12">' +
+        '<div class="col-xs-12" id="radio-container-' + question._id + '">' +
         optionsString +
         '</div>' +
         '</div>' +
@@ -460,7 +460,7 @@ function displayShortAnswer(appendTo, question) {
     });
 }
 
-//todo: multi answer - bar chart
+// multi answer - bar chart
 function displayMultiAnswer(appendTo, question) {
     var questionId = question._id;
 
@@ -493,7 +493,7 @@ function displayMultiAnswer(appendTo, question) {
     });
 }
 
-// todo: single answer - pie chart
+// single answer - pie chart
 function displaySingleAnswer(appendTo, question) {
     var questionId = question._id;
 
@@ -526,7 +526,7 @@ function displaySingleAnswer(appendTo, question) {
     });
 }
 
-// todo toggle - pie chart
+// oggle - pie chart
 function displayToggleAnswer(appendTo, question) {
     var questionId = question._id;
 
@@ -612,7 +612,16 @@ $(document).ready(function() {
     }
 });
 
-//note: this is how you get the user's token for validation
+$(document).on('click', ".answer-radio", function(e) {
+    console.log('clicked radio');
+
+    $("#radio-container-" + $(this).data('question-id') + " > .radio > label > .answer-radio").each(function(index) {
+        $(this).prop('checked', false);
+    });
+
+    $(this).prop('checked', true);
+});
+
 $(document).on("click", "g-signin2", function(e){
     e.preventDefault();
     if (gapi.auth2) {
