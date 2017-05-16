@@ -5,29 +5,51 @@ var Main = React.createClass({
     // Here we render the function
     render: function () {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="jumbotron">
-                        <h2 className="text-center">This is a test for Jasmine</h2>
-                        <p className="text-center">
-                            <em>There should be some google stuff below here and in the console</em>
-                        </p>
-                    </div>
-                </div>
+        <div>
+        
+        <header className="header black-bg">
 
-                <div className="row" id="row-nav">
-                    <div className="col-xs-12">
-                        {/*<div className="g-signin2" data-onsuccess="onSignIn"></div>*/}
-                        <div className="g-signin2" data-onsuccess="onGoogleSignIn"></div>
-                        <a href="#" onClick={onGoogleSignOut}>Sign Out</a>
-                        {/*todo: insert other nav items here*/}
+            <a href="/" className="logo"><b>Ask Away</b></a>
+
+            <div className="top-menu">
+                <ul className="nav pull-right top-menu">
+                {/*<div className="g-signin2" data-onsuccess="onSignIn"></div>*/}
+                <div className="g-signin2 logout" data-onsuccess="onGoogleSignIn"></div>
+                </ul>
+            </div>
+        </header>
+        
+        <aside>
+          <div id="sidebar"  className="nav-collapse">
+            <ul className="sidebar-menu" id="nav-accordion">
+
+                <div className="sign-in-required">
+                <h5>Welcome</h5>
+                </div>
+                {/*todo: insert other nav items here*/}
                         <div className="btn btn-primary sign-in-required" id="btn-nav-create">Create Survey</div>
                         <div className="btn btn-primary sign-in-required" id="btn-nav-view">View Results</div>
-                        <div className="btn btn-primary sign-in-required">New Log Out Button</div>
-                    </div>
-                </div>
+                        <div className="btn btn-primary sign-in-required" onClick={onGoogleSignOut} >Log Out</div>
 
-                <div className="row" id="row-view-survey"  style={{display: 'none'}}>
+            <div>
+                <li className="mt">
+                    <span>Copyright 2017</span>                
+                </li>
+            </div>
+            
+
+                    
+            </ul>
+          </div>
+      </aside>
+
+        <section id="main-content">
+            <section className="wrapper">
+                <div className="row mt">
+                    <div className="col-xs-12 sign-in-required">
+                    
+
+                    <div className="row" id="row-view-survey">
                     <div className="col-xs-12">
                         <div className="row">
                             <div className="col-xs-12">
@@ -45,28 +67,18 @@ var Main = React.createClass({
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div className="row" id="row-view-response"  style={{display: 'none'}}>
-                    <div className="col-xs-12">
-                        <ol id="response-list"></ol>
                     </div>
-                </div>
 
-                <div className="row" id="row-create-survey"  style={{display: 'none'}}>
+                    <div className="row" id="row-create-survey">
                     <div className="col-xs-12">
                         <div className="row" id="row-questions">
                             <div className="col-xs-12">
                                 <div className="panel panel-default">
                                     <div className="panel-body">
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <div className="form-group">
-                                                    <label htmlFor="input-survey-name" className="col-lg-2 control-label">Survey Name</label>
-                                                    <div className="col-lg-10">
-                                                        <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
-                                                    </div>
-                                                </div>
+                                        <div className="form-group">
+                                            <label htmlFor="input-survey-name" className="col-lg-2 control-label">Survey Name</label>
+                                            <div className="col-lg-10">
+                                                <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
                                             </div>
                                         </div>
                                         <ol id="question-container"></ol>
@@ -96,9 +108,9 @@ var Main = React.createClass({
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
-                <div className="row" id="row-create-response"  style={{display: 'none'}}>
+                    <div className="row" id="row-create-response">
                     <div className="col-xs-12">
                         <div className="row">
                             <div className="col-xs-12">
@@ -113,18 +125,29 @@ var Main = React.createClass({
 
                         <div className="row" id="row-save-response">
                             <div className="col-xs-12">
-                                <div className="btn btn-primary btn-block" id="btn-save-response">Save Response</div>
+                                <div className="btn btn-primary btn-block sign-in-required" id="btn-save-response">Save Response</div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    </div>
 
-                <div className="row" id="row-thank-you" style={{display: 'none'}}>
+                    <div className="row" id="row-thank-you" style={{display: 'none'}}>
                     <div className="col-xs-12">
                         <h2>Thank You!</h2>
                     </div>
                 </div>
+
+
+                    </div>      
+                </div>
+            </section>
+        </section>
+
+
+
+
             </div>
+            
         );
     }
 });
