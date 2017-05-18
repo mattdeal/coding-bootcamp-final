@@ -33,7 +33,7 @@ app.use(express.static("./public"));
 // -------------------------------------------------
 
 // mongoose.connect("mongodb://admin:codingrocks@ds023664.mlab.com:23664/reactlocate");
-mongoose.connect("mongodb://localhost/survey5");
+// mongoose.connect("mongodb://localhost/survey5");
 var db = mongoose.connection;
 
 db.on("error", function(err) {
