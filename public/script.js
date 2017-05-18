@@ -161,7 +161,8 @@ function createSurveyView(survey) {
     return '<li>' + 
     '<div class="row">' +
     '<div class="col-xs-2">' + (survey.active ? 'OPEN' : 'CLOSED') + '</div>' +
-    '<div class="col-xs-9">' + survey.name + '</div>' +
+    '<div class="col-xs-8">' + survey.name + '</div>' +
+    '<div class="col-xs-1"><a class="btn btn-success btn-block btn-share-survey" target="_blank" href="/survey/' + survey._id + '">Share</a></div>' +
     '<div class="col-xs-1"><div class="btn btn-primary btn-block btn-view-survey" data-survey-id="' + survey._id + '">View</div></div>' +
     '</div>' + 
     '</li>';
@@ -296,7 +297,7 @@ function presentSurvey(survey) {
     var questionList = $('#response-question-list');
     questionList.html('');
 
-    //todo: display survey name somewhere
+    // display survey name somewhere
     $('#display-survey-name').html(survey.name);
 
     for (var i = 0; i < survey.questions.length; i++) {
