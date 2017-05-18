@@ -5,7 +5,7 @@ var Main = React.createClass({
     // Here we render the function
     render: function () {
         return (
-            <div>
+        <section id="container" >
                 <header className="header black-bg">
                     <a href="/" className="logo"><b>Ask Away</b></a>
                     <div className="top-menu">
@@ -17,9 +17,8 @@ var Main = React.createClass({
                 </header>
 
                 <aside>
-                    <div id="sidebar" className="nav-collapse">
+                    <div id="sidebar" className="nav-collapse ">
                         <ul className="sidebar-menu" id="nav-accordion">
-
                             <div className="sign-in-required">
                                 <h5>Welcome</h5>
                             </div>
@@ -33,7 +32,6 @@ var Main = React.createClass({
                                     <span>Copyright 2017</span>
                                 </li>
                             </div>
-
                         </ul>
                     </div>
                 </aside>
@@ -43,7 +41,7 @@ var Main = React.createClass({
                         <div className="row mt">
                             <div className="col-xs-12">
 
-                                <div className="row" id="row-view-survey">
+                                <div className="row" id="row-view-survey"> 
                                     <div className="col-xs-12">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -140,7 +138,8 @@ var Main = React.createClass({
                         </div>
                     </section>
                 </section>
-            </div>
+            
+        </section>
         );
     }
 });
