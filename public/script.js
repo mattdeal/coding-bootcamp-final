@@ -434,6 +434,8 @@ function presentResponses(survey) {
     var responseList = $('#response-list');
     responseList.html('');
 
+    $('#response-survey-name').html(survey.name);
+
     for (var i = 0; i < survey.questions.length; i++) {
         prepareResponse(responseList, survey.questions[i]);
     }

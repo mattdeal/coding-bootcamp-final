@@ -63,6 +63,7 @@ var Main = React.createClass({
 
                                 <div className="row" id="row-view-response"  style={{display: 'none'}}>
                                     <div className="col-xs-12">
+                                        <h2 id="response-survey-name"></h2>
                                         <ol id="response-list"></ol>
                                     </div>
                                 </div>
