@@ -80,8 +80,8 @@ var Main = React.createClass({
                                                                 <input type="text" className="form-control" id="input-survey-name" placeholder="Survey Name" />
                                                             </div>
                                                         </div>
-                                                        <ol id="question-container"></ol>
                                                     </div>
+                                                    <ol id="question-container"></ol>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,6 +102,7 @@ var Main = React.createClass({
                                         </div>
 
                                         <div className="row" id="row-save-survey">
+                                            <div className="row"><p></p></div>
                                             <div className="col-xs-12">
                                                 <div className="btn btn-primary btn-block" id="btn-save-survey">Save Survey</div>
                                             </div>
